@@ -1,0 +1,10 @@
+<div *ngIf="rooms && rooms.length > 0; else noRooms">
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let room of rooms">
+      {{ room.name }}
+    </li>
+  </ul>
+</div>
+<ng-template #noRooms>
+  <p class="text-muted">No rooms available for this workspace.</p>
+</ng-template>
