@@ -1,18 +1,37 @@
-<div class="container" style="width: 30%; float: left;">
-    <div id="workspaceAccordion" class="accordion">
-      <div *ngFor="let workspace of workspaces; let i = index" class="accordion-item">
-        <h2 class="accordion-header" [id]="'workspaceHeading' + i">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" (click)="toggleRooms(workspace.id, i)" [attr.data-bs-target]="'#workspaceCollapse' + i" aria-expanded="false" [attr.aria-controls]="'workspaceCollapse' + i">
-            {{ workspace.name }}
-          </button>
-        </h2>
-        <div [id]="'workspaceCollapse' + i" [attr.aria-labelledby]="'workspaceHeading' + i" class="accordion-collapse collapse" data-bs-parent="#workspaceAccordion">
-          <div class="accordion-body">
-            <p>Workspace ID: {{ workspace.id }}</p>
-            <app-rooms *ngIf="isActiveWorkspace(workspace.id)" [workspaceId]="workspace.id"></app-rooms>
+<!-- workspace.component.html -->
+<div class="container">
+  <div class="row">
+    <!-- Workspace Accordion Column -->
+    <div class="col-md-4">
+      <div id="workspaceAccordion" class="accordion">
+        <div *ngFor="let workspace of workspaces; let i = index" class="accordion-item">
+          <h2 class="accordion-header" [id]="'workspaceHeading' + i">
+            <button 
+              class="accordion-button collapsed" 
+              type="button" 
+              data-bs-toggle="collapse" 
+              (click)="toggleRooms(workspace.workspaceId, i)" 
+              [attr.data-bs-target]="'#workspaceCollapse' + i" 
+              aria-expanded="false" 
+              [attr.aria-controls]="'workspaceCollapse' + i">
+              {{ workspace.name }}
+            </button>
+          </h2>
+          <div 
+            [id]="'workspaceCollapse' + i" 
+            [attr.aria-labelledby]="'workspaceHeading' + i" 
+            class="accordion-collapse collapse" 
+            data-bs-parent="#workspaceAccordion">
+            <div class="accordion-body">
+              <!-- RoomsComponent is included here -->
+              <app-rooms 
+                *ngIf="isActiveWorkspace(workspace.workspaceId)" 
+                [workspaceId]="workspace.workspaceId">
+              </app-rooms>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

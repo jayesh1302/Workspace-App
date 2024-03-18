@@ -25,7 +25,7 @@ public class WorkspaceService {
     }
 
     public Workspace getWorkspaceById(Long id) {
-        return workspaceRepository.findById(id).orElseThrow(() -> new RuntimeException("Workspace not found"));
+        return workspaceRepository.findById(id).orElse(null);
     }
 
     public Workspace updateWorkspace(Workspace workspace) {

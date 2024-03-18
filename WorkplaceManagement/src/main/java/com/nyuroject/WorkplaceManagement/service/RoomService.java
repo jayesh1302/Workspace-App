@@ -40,4 +40,8 @@ public class RoomService {
         roomRepository.deleteById(id);
     }
 
+    public boolean existsById(Long roomId) {
+        return roomRepository.existsById(roomId);
+    }
+
 }

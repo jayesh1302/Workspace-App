@@ -9,7 +9,8 @@ import { RoomService } from 'src/app/services/roomService/room.service';
 })
 export class RoomsComponent implements OnChanges {
   @Input() workspaceId!: number;
-  rooms: Room[] = []; // Using the Room model for type safety
+  rooms: Room[] = [];
+  selectedRoomId?: number;
 
   constructor(private roomService: RoomService) {}
 
@@ -20,15 +21,20 @@ export class RoomsComponent implements OnChanges {
   }
 
   loadRooms(): void {
-    console.log(this.workspaceId);
     this.roomService.getRoomsByWorkspaceId(this.workspaceId).subscribe({
       next: (rooms) => {
         this.rooms = rooms;
-        console.log('Rooms data received:', rooms); // Log the data received
       },
       error: (err) => {
         console.error('Failed to load rooms', err);
       }
     });
   }
+
+  selectRoom(roomId: number): void {
+    console.log(roomId);
+    console.log(`Selected room ${roomId}`);
+    this.selectedRoomId = roomId;
+  }
+
 }

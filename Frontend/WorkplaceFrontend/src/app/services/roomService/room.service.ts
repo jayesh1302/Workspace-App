@@ -15,6 +15,7 @@ export class RoomService {
 
   getRoomsByWorkspaceId(workspaceId: number): Observable<Room[]> {
     const url = `${this.apiUrl}/api/rooms/workspace/${workspaceId}`;
+    console.log("JKKKKK" + JSON.stringify(this.http.get<Room[]>(url)));
     return this.http.get<Room[]>(url);
   }
 }

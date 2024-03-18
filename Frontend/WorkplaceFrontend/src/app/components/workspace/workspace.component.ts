@@ -15,17 +15,17 @@ export class WorkspaceComponent {
   ngOnInit(): void {
     console.log(this.workspaces);
     this.workspaceService.getWorkspaces().subscribe((data) => {
-      console.log(data);
+      console.log("Workspaces data received:", data);
       this.workspaces = data;
     });
   }
 
   toggleRooms(workspaceId: string, index: number): void {
-    // This line toggles the active workspace
     this.activeWorkspaceId = this.activeWorkspaceId === workspaceId ? null : workspaceId;
 }
 
   isActiveWorkspace(workspaceId: string): boolean {
     return this.activeWorkspaceId === workspaceId;
   }
+  
 }

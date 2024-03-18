@@ -1,6 +1,6 @@
 <div *ngIf="rooms && rooms.length > 0; else noRooms">
   <ul class="list-group">
-    <li class="list-group-item" *ngFor="let room of rooms">
+    <li class="list-group-item" *ngFor="let room of rooms" (click)="selectRoom(room.roomId)">
       {{ room.name }}
     </li>
   </ul>
@@ -8,3 +8,6 @@
 <ng-template #noRooms>
   <p class="text-muted">No rooms available for this workspace.</p>
 </ng-template>
+
+<!-- Display ChatroomComponent for the selected room -->
+<app-chatroom *ngIf="selectedRoomId" [roomId]="selectedRoomId"></app-chatroom>

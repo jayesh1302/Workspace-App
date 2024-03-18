@@ -18,13 +18,14 @@ import java.util.List;
 public class Workspace {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long workspaceId;
     private String name;
 
     @ElementCollection
     @CollectionTable(name = "workspace_room", joinColumns = @JoinColumn(name = "workspace_id"))
     @Column(name = "room_id")
     private List<Long> roomIds = new ArrayList<>();
+
 
 }
 

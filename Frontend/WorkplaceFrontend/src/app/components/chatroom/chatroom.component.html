@@ -1,0 +1,11 @@
+<div *ngIf="messages.length > 0; else noMessages">
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let message of messages">
+        <!-- Assuming your Message object has a text property -->
+        {{ message.content }}
+      </li>
+    </ul>
+  </div>
+  <ng-template #noMessages>
+    <p class="text-muted">No messages in this room.</p>
+  </ng-template>

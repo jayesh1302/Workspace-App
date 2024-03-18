@@ -7,13 +7,15 @@ import { RoomsComponent } from './components/rooms/rooms.component';
 import { HttpClientModule } from '@angular/common/http'; 
 import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { ChatroomComponent } from './components/chatroom/chatroom.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RoomsComponent,
     WorkspaceComponent,
-    NavbarComponent
+    NavbarComponent,
+    ChatroomComponent
   ],
   imports: [
     BrowserModule,
