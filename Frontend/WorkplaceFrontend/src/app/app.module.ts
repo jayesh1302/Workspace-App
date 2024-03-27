@@ -7,7 +7,10 @@ import { RoomsComponent } from './components/rooms/rooms.component';
 import { HttpClientModule } from '@angular/common/http'; 
 import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { HomepageComponent } from './components/homepage/homepage.component';
 import { ChatroomComponent } from './components/chatroom/chatroom.component';
+import { LoginpageComponent } from './components/loginpage/loginpage.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,12 +18,15 @@ import { ChatroomComponent } from './components/chatroom/chatroom.component';
     RoomsComponent,
     WorkspaceComponent,
     NavbarComponent,
-    ChatroomComponent
+    ChatroomComponent,
+    HomepageComponent,
+    LoginpageComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

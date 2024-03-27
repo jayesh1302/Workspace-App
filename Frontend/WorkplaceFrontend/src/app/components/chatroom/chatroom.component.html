@@ -1,11 +1,38 @@
-<div *ngIf="messages.length > 0; else noMessages">
-    <ul class="list-group">
-      <li class="list-group-item" *ngFor="let message of messages">
-        <!-- Assuming your Message object has a text property -->
-        {{ message.content }}
-      </li>
-    </ul>
+<!-- <div *ngIf="messages && messages.length > 0; else noMessages" class="container-fluid px-0 d-flex flex-column" style="max-height: 100vh; overflow: hidden;"> -->
+  <div *ngIf="messages && messages.length > 0; else noMessages" class="container-fluid px-0 d-flex flex-column" style="height: 90vh;">
+    
+    <!-- Messages container with outline and dynamically calculated height for scrolling -->
+    <div class="overflow-auto" style="flex-grow: 1; border: 1px solid #ced4da; border-radius: .25rem;">
+      <div class="d-flex flex-column align-items-end p-3">
+        <div *ngFor="let message of messages" class="mb-2 w-100">
+          <div class="card">
+            <div class="card-body">
+              <!-- Display userID or 'noname' if userID is null, followed by the message content -->
+              <p class="card-text">
+                <span class="user-id">{{ message.userName ? message.userName : 'admin' }}</span>
+                : {{ message.content }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Input area -->
+    <div class="p-3 border-top">
+      <form class="d-flex">
+        <input type="text" class="form-control me-2" placeholder="Type a message..." aria-label="Message">
+        <button type="submit" class="btn btn-primary">Send</button>
+      </form>
+    </div>
   </div>
   <ng-template #noMessages>
-    <p class="text-muted">No messages in this room.</p>
+    <div class="d-flex flex-column justify-content-center align-items-center" style="max-height: 100vh; overflow: hidden;">
+      <p class="text-muted mb-3">No messages in this room.</p>
+      <!-- Input area (also shown when no messages) -->
+      <form class="d-flex" (ngSubmit)="sendMessage($event)">
+        <input type="text" class="form-control me-2" placeholder="Type a message..." aria-label="Message" [(ngModel)]="newMessageContent" name="messageContent">
+        <button type="submit" class="btn btn-primary">Send</button>
+      </form>
+    </div>
   </ng-template>
+  

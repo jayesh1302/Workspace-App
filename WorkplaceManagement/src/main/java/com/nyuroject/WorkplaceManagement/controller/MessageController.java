@@ -3,16 +3,20 @@ package com.nyuroject.WorkplaceManagement.controller;
 import com.nyuroject.WorkplaceManagement.model.Message;
 import com.nyuroject.WorkplaceManagement.service.MessageService;
 import com.nyuroject.WorkplaceManagement.service.RoomService;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/messages")
 public class MessageController {
+    private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
     private final MessageService messageService;
     private final RoomService roomService;
 

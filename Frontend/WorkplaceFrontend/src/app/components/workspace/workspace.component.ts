@@ -7,7 +7,7 @@ import { WorkspaceService } from 'src/app/services/workspaceService/workspace.se
   styleUrls: ['./workspace.component.css']
 })
 export class WorkspaceComponent {
-  workspaces: any[] = []; // Assume this gets populated with your workspaces
+  workspaces: any[] = []; 
   activeWorkspaceId: string | null = null;
 
   constructor(private workspaceService: WorkspaceService) {}

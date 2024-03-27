@@ -1,13 +1,10 @@
-<div *ngIf="rooms && rooms.length > 0; else noRooms">
+<div *ngIf="rooms.length > 0; else noRooms" class="container">
   <ul class="list-group">
-    <li class="list-group-item" *ngFor="let room of rooms" (click)="selectRoom(room.roomId)">
-      {{ room.name }}
+    <li class="list-group-item" *ngFor="let room of rooms">
+      <a [routerLink]="['/chat/room', room.roomId]" class="chatroom-link">{{ room.name }}</a>
     </li>
   </ul>
 </div>
 <ng-template #noRooms>
-  <p class="text-muted">No rooms available for this workspace.</p>
+  <p class="text-muted text-center">No chatrooms available.</p>
 </ng-template>
-
-<!-- Display ChatroomComponent for the selected room -->
-<app-chatroom *ngIf="selectedRoomId" [roomId]="selectedRoomId"></app-chatroom>
