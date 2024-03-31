@@ -20,20 +20,11 @@ export class ChatRoomServiceService {
 
   getUserName(message: Message, userId: number): Observable<string> {
     const url = `http://localhost:8080/api/user/getusername/${userId}`;
-    return this.http.get(url, { responseType: 'text' })
+    return this.http.get<string>(url, { responseType: 'text' as 'json' })
       .pipe(
-        map(responseText => {
-          try {
-            const jsonResponse = JSON.parse(responseText);
-            return jsonResponse.username || 'noname';
-          } catch (error) {
-            console.error('Error parsing username:', error);
-            return 'admin';
-          }
-        }),
         catchError(error => {
           console.error('Error getting username:', error);
-          return of('admin');
+          return of('admin'); // Provides a default username in case of error
         })
       );
   }

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, combineLatest, of, tap } from 'rxjs';
 import { ChatRoomServiceService } from 'src/app/services/chatRoomService/chat-room-service.service';
 import { Message } from 'src/app/services/chatRoomService/message';
+import { SummarizeModalComponent } from '../summarize-modal/summarize-modal.component';
 
 @Component({
   selector: 'app-chatroom',
@@ -10,9 +11,11 @@ import { Message } from 'src/app/services/chatRoomService/message';
   styleUrls: ['./chatroom.component.css']
 })
 export class ChatroomComponent implements OnInit {
+  @ViewChild(SummarizeModalComponent) summarizeModalComponent!: SummarizeModalComponent;
   roomId: string | null = null;
   messages: Message[] = [];
   newMessageContent: string = '';
+  isSummarizeModalOpen: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -51,12 +54,12 @@ export class ChatroomComponent implements OnInit {
             tap(userName => message.userName = userName || 'noname'),
             catchError(error => {
               console.error('Error getting user name:', error);
-              return of('noname'); // Return 'noname' in case of error
+              return of('admin'); // Return 'noname' in case of error
             })
           );
       } else {
         // If userId is null or undefined, return an Observable immediately
-        return of('noname');
+        return of('admin');
       }
     });
   
@@ -67,14 +70,43 @@ export class ChatroomComponent implements OnInit {
       // Trigger change detection if necessary
     });
   }
-
+  
   sendMessage(event: Event) {
     event.preventDefault();
-    console.log("JKK content: ", this.newMessageContent);
-    console.log("JKK roomId: ", this.roomId);
+    if (this.roomId) {
+      const messageToSend: Message = {
+        content: this.newMessageContent,
+        userId: 1,
+        roomId: Number(this.roomId)
+      };
+  
+      const roomIdNumber = Number(this.roomId);
+  
+      this.chatRoomService.sendMessage(roomIdNumber, messageToSend).subscribe({
+        next: (savedMessage) => {
+          console.log('Message sent:', savedMessage);
+          this.messages.push(savedMessage);
+          this.newMessageContent = '';
+  
+          // Delay the chat refresh by 1000ms (1 second)
+          setTimeout(() => {
+            this.loadMessages();
+          }, 1000);
+  
+        },
+        error: (error) => {
+          console.error('Error sending message:', error);
+        }
+      });
+    } else {
+      console.error('Room ID is null, cannot send message');
+    }
   }
 
-  testClick() {
-    console.log('Button clicked!');
+  openSummarizeModal() {
+    this.isSummarizeModalOpen = true;
+    this.summarizeModalComponent.open(Number(this.roomId));
   }
+  
+  
 }

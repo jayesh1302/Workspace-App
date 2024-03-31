@@ -1,38 +1,80 @@
-<!-- <div *ngIf="messages && messages.length > 0; else noMessages" class="container-fluid px-0 d-flex flex-column" style="max-height: 100vh; overflow: hidden;"> -->
-  <div *ngIf="messages && messages.length > 0; else noMessages" class="container-fluid px-0 d-flex flex-column" style="height: 90vh;">
-    
-    <!-- Messages container with outline and dynamically calculated height for scrolling -->
-    <div class="overflow-auto" style="flex-grow: 1; border: 1px solid #ced4da; border-radius: .25rem;">
-      <div class="d-flex flex-column align-items-end p-3">
-        <div *ngFor="let message of messages" class="mb-2 w-100">
-          <div class="card">
-            <div class="card-body">
-              <!-- Display userID or 'noname' if userID is null, followed by the message content -->
-              <p class="card-text">
-                <span class="user-id">{{ message.userName ? message.userName : 'admin' }}</span>
-                : {{ message.content }}
-              </p>
-            </div>
+<!-- chatroom.component.html -->
+
+<div *ngIf="messages && messages.length > 0; else noMessages" class="container-fluid px-0 d-flex flex-column" style="height: 90vh;">
+  
+  <!-- Messages container with outline and dynamically calculated height for scrolling -->
+  <div class="overflow-auto" style="flex-grow: 1; border: 1px solid #ced4da; border-radius: .25rem;">
+    <div class="d-flex flex-column align-items-end p-3">
+      <div *ngFor="let message of messages" class="mb-2 w-100">
+        <div class="card">
+          <div class="card-body">
+            <!-- Display userID or 'noname' if userID is null, followed by the message content -->
+            <p class="card-text">
+              <span class="user-id">{{ message.userName ? message.userName : 'admin' }}</span>
+              : {{ message.content }}
+            </p>
           </div>
         </div>
       </div>
     </div>
-    <!-- Input area -->
-    <div class="p-3 border-top">
-      <form class="d-flex">
-        <input type="text" class="form-control me-2" placeholder="Type a message..." aria-label="Message">
-        <button type="submit" class="btn btn-primary">Send</button>
-      </form>
-    </div>
   </div>
-  <ng-template #noMessages>
-    <div class="d-flex flex-column justify-content-center align-items-center" style="max-height: 100vh; overflow: hidden;">
-      <p class="text-muted mb-3">No messages in this room.</p>
-      <!-- Input area (also shown when no messages) -->
-      <form class="d-flex" (ngSubmit)="sendMessage($event)">
-        <input type="text" class="form-control me-2" placeholder="Type a message..." aria-label="Message" [(ngModel)]="newMessageContent" name="messageContent">
-        <button type="submit" class="btn btn-primary">Send</button>
-      </form>
-    </div>
-  </ng-template>
-  
+
+  <!-- Input area -->
+  <div class="p-3 border-top">
+    <form class="d-flex" (ngSubmit)="sendMessage($event)">
+
+      <!-- Dropdown for chat options -->
+      <div class="dropdown me-2">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="chatOptionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          Chat Options
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="chatOptionsDropdown">
+          <li><button class="dropdown-item" disabled>Action</button></li>
+          <li><button class="dropdown-item" disabled>Another action</button></li>
+          <li>
+            <!-- <button type="button" class="dropdown-item" (click)="$event.preventDefault(); $event.stopPropagation(); openSummarizeModal()">
+              Summarize text
+            </button> -->
+            <button type="button" class="dropdown-item" (click)="openSummarizeModal()">Summarize text</button>
+          </li>
+        </ul>
+      </div>
+
+      <input type="text" class="form-control me-2" placeholder="Type a message..." aria-label="Message" [(ngModel)]="newMessageContent" name="messageContent">
+      <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+  </div>
+
+  <!-- Modal placeholder for Summarize Text -->
+  <app-summarize-modal #summarizeModal [hidden]="!isSummarizeModalOpen" (close)="isSummarizeModalOpen = false"></app-summarize-modal>
+
+</div>
+
+<ng-template #noMessages>
+  <div class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh; overflow: hidden;">
+    <p class="text-muted mb-3">No messages in this room.</p>
+    
+    <!-- Input area (also shown when no messages) -->
+    <form class="d-flex" (ngSubmit)="sendMessage($event)">
+
+      <!-- Dropdown for chat options -->
+      <div class="dropdown me-2">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="chatOptionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          Chat Options
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="chatOptionsDropdown">
+          <li><button class="dropdown-item" disabled>Action</button></li>
+          <li><button class="dropdown-item" disabled>Another action</button></li>
+          <li>
+            <button type="button" class="dropdown-item" (click)="$event.preventDefault(); $event.stopPropagation(); openSummarizeModal()">
+              Summarize text
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <input type="text" class="form-control me-2" placeholder="Type a message..." aria-label="Message" [(ngModel)]="newMessageContent" name="messageContent">
+      <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+  </div>
+</ng-template>
