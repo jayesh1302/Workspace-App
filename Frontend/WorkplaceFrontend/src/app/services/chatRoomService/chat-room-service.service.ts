@@ -14,7 +14,6 @@ export class ChatRoomServiceService {
 
   getMessagesByRoomId(roomId: number) : Observable<Message[]> {
     const url = `${this.apiUrl}/api/messages/room/${roomId}`;
-    console.log("JKKKK getMessagesByRoomId " + JSON.stringify(this.http.get<Message[]>(url)) );
     return  this.http.get<Message[]>(url);
   }
 

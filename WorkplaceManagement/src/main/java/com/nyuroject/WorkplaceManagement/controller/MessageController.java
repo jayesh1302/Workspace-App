@@ -66,14 +66,27 @@ public class MessageController {
             String summary = openAIService.sendMessageToOpenAI(allMessagesContent);
             return ResponseEntity.ok(summary);
         } catch (JsonProcessingException e) {
-            // Log the exception and return an appropriate error response
-            // For instance, you can return an internal server error status
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error processing JSON: " + e.getMessage());
         } catch (Exception e) {
-            // Catch all other exceptions and handle them similarly
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("An error occurred: " + e.getMessage());
         }
     }
+
+    @GetMapping("/{messageId}/search")
+    public ResponseEntity<?> getSearchSolution(@PathVariable Long messageId) {
+        try {
+            Message message = messageService.getMessageById(messageId);
+            String solution = openAIService.searchOpenAI(message);
+            return ResponseEntity.ok(solution);
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error processing JSON: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred: " + e.getMessage());
+        }
+    }
+
 }

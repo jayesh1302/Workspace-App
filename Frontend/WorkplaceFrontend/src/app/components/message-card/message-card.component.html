@@ -1,0 +1,18 @@
+<div class="card mb-2 w-100">
+    <div class="card-body d-flex justify-content-between">
+      <p class="card-text">
+        <span class="user-id">{{ message.userName ? message.userName : 'admin' }}</span>: {{ message.content }}
+      </p>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button"
+                [attr.id]="'dropdownMenuButton' + message.messageId" data-bs-toggle="dropdown" aria-expanded="false">
+          ...
+        </button>
+        <ul class="dropdown-menu" [attr.aria-labelledby]="'dropdownMenuButton' + message.messageId">
+          <li><button class="dropdown-item" disabled>Action</button></li>
+          <li><button class="dropdown-item" disabled>Another action</button></li>
+          <li><button class="dropdown-item" (click)="onSearchSolution()">Search solution</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>

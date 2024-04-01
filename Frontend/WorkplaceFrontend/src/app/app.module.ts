@@ -12,6 +12,7 @@ import { ChatroomComponent } from './components/chatroom/chatroom.component';
 import { LoginpageComponent } from './components/loginpage/loginpage.component';
 import { FormsModule } from '@angular/forms';
 import { SummarizeModalComponent } from './components/summarize-modal/summarize-modal.component';
+import { MessageCardComponent } from './components/message-card/message-card.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { SummarizeModalComponent } from './components/summarize-modal/summarize-
     ChatroomComponent,
     HomepageComponent,
     LoginpageComponent,
-    SummarizeModalComponent
+    SummarizeModalComponent,
+    MessageCardComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,4 @@
+.dropdown-menu {
+    z-index: 1000; /* High z-index to ensure it's on top */
+    position: absolute; /* Must be positioned for z-index to take effect */
+  }

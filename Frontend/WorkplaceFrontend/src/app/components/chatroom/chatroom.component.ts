@@ -4,6 +4,7 @@ import { catchError, combineLatest, of, tap } from 'rxjs';
 import { ChatRoomServiceService } from 'src/app/services/chatRoomService/chat-room-service.service';
 import { Message } from 'src/app/services/chatRoomService/message';
 import { SummarizeModalComponent } from '../summarize-modal/summarize-modal.component';
+import { OpenAIServiceService } from 'src/app/services/openAIService/open-aiservice.service';
 
 @Component({
   selector: 'app-chatroom',
@@ -17,9 +18,11 @@ export class ChatroomComponent implements OnInit {
   newMessageContent: string = '';
   isSummarizeModalOpen: boolean = false;
 
+
   constructor(
     private route: ActivatedRoute,
-    private chatRoomService: ChatRoomServiceService
+    private chatRoomService: ChatRoomServiceService,
+    public openAIService: OpenAIServiceService
   ) {}
 
   ngOnInit() {
@@ -65,9 +68,6 @@ export class ChatroomComponent implements OnInit {
   
     // Wait for all username requests to complete
     combineLatest(usernameRequests).subscribe(() => {
-      // At this point, all messages have their userName set
-      console.log('Messages after fetching usernames:', this.messages);
-      // Trigger change detection if necessary
     });
   }
   
@@ -104,9 +104,31 @@ export class ChatroomComponent implements OnInit {
   }
 
   openSummarizeModal() {
+      if (this.roomId !== null) {
     this.isSummarizeModalOpen = true;
-    this.summarizeModalComponent.open(Number(this.roomId));
+    // Assuming you have modified the open method to take two parameters.
+    this.summarizeModalComponent.open('summary', Number(this.roomId));
+  } else {
+    // Handle the case where roomId is null
+    console.error('Room ID is null');
   }
+}
+
   
-  
+
+onSearchSolution(event: { content: string, id: number }) {
+  this.openAIService.searchSolution(event.id).subscribe({
+    next: (content) => {
+      // Directly using the content as the response is mapped to a string.
+      this.summarizeModalComponent.summaryContent = content;
+      this.isSummarizeModalOpen = true;
+      console.log("Content: " + content); // Should log the content now
+    },
+    error: (error) => {
+      console.error('Error searching for solution:', error);
+      this.summarizeModalComponent.summaryContent = 'Error fetching solution';
+      this.isSummarizeModalOpen = true;
+    }
+  });
+  }
 }
