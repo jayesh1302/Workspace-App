@@ -1,5 +1,43 @@
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-      <span class="navbar-brand mb-0 h1" href="#">Workspace Manager App</span>
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+  <div class="container-fluid">
+    <span class="navbar-brand mb-0 h1">Workspace Manager App</span>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <!-- Button trigger modal -->
+          <button class="btn btn-primary me-2" type="button" data-bs-toggle="modal" data-bs-target="#addWorkspaceModal">
+            Add new workspace
+          </button>
+        </li>
+        <li class="nav-item">
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-light" type="submit">Search</button>
+          </form>
+        </li>
+      </ul>
     </div>
-  </nav>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Add Workspace Modal -->
+<div class="modal fade" id="addWorkspaceModal" tabindex="-1" aria-labelledby="addWorkspaceModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addWorkspaceModalLabel">Add New Workspace</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" [(ngModel)]="workspaceName" class="form-control" id="workspaceName" placeholder="Enter workspace name">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="submitNewWorkspace()">Create Workspace</button>
+      </div>
+    </div>
+  </div>
+</div>

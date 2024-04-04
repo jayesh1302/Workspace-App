@@ -1,29 +1,24 @@
-<!-- workspace.component.html -->
 <div class="container">
   <div class="row">
-    <!-- Workspace Accordion Column -->
     <div class="col-md-8">
       <div id="workspaceAccordion" class="accordion">
-        <div *ngFor="let workspace of workspaces; let i = index" class="accordion-item">
-          <h2 class="accordion-header" [id]="'workspaceHeading' + i">
-            <button 
-              class="accordion-button collapsed" 
-              type="button" 
-              data-bs-toggle="collapse" 
-              (click)="toggleRooms(workspace.workspaceId, i)" 
-              [attr.data-bs-target]="'#workspaceCollapse' + i" 
-              aria-expanded="false" 
-              [attr.aria-controls]="'workspaceCollapse' + i">
+        <div *ngFor="let workspace of workspaces" class="accordion-item">
+          <h2 class="accordion-header" [id]="'workspaceHeading' + workspace.workspaceId">
+            <button class="accordion-button" [class.collapsed]="!isActiveWorkspace(workspace.workspaceId)"
+                    type="button" (click)="toggleRooms(workspace.workspaceId)"
+                    [attr.aria-expanded]="isActiveWorkspace(workspace.workspaceId) ? 'true' : 'false'">
               {{ workspace.name }}
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" (click)="prepareForCancellation(workspace.workspaceId)">
+              Delete Workspace
             </button>
           </h2>
           <div 
-            [id]="'workspaceCollapse' + i" 
-            [attr.aria-labelledby]="'workspaceHeading' + i" 
+            [id]="'workspaceCollapse' + workspace.workspaceId" 
+            [attr.aria-labelledby]="'workspaceHeading' + workspace.workspaceId" 
             class="accordion-collapse collapse" 
-            data-bs-parent="#workspaceAccordion">
+            [class.show]="isActiveWorkspace(workspace.workspaceId)">
             <div class="accordion-body">
-              <!-- RoomsComponent is included here -->
               <app-rooms 
                 *ngIf="isActiveWorkspace(workspace.workspaceId)" 
                 [workspaceId]="workspace.workspaceId">
@@ -35,3 +30,5 @@
     </div>
   </div>
 </div>
+
+<app-cancel-modal [show]="showDeleteWorkspaceModal" (onConfirmCancellation)="cancelWorkspace()"></app-cancel-modal>

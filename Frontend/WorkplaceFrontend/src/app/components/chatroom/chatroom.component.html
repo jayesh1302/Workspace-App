@@ -6,7 +6,7 @@
     <div class="d-flex flex-column align-items-end p-3">
       <!-- Using the new MessageCardComponent for each message -->
       <div *ngFor="let message of messages" class="mb-2 w-100">
-        <app-message-card [message]="message" (searchSolution)="onSearchSolution($event)"></app-message-card>
+        <app-message-card [message]="message" (searchSolution)="onSearchSolution($event)" (messageDeleted)="onMessageDeleted()"></app-message-card>
       </div>
     </div>
   </div>

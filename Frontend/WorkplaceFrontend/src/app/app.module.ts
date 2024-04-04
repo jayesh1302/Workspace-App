@@ -13,6 +13,9 @@ import { LoginpageComponent } from './components/loginpage/loginpage.component';
 import { FormsModule } from '@angular/forms';
 import { SummarizeModalComponent } from './components/summarize-modal/summarize-modal.component';
 import { MessageCardComponent } from './components/message-card/message-card.component';
+import { CancelModalComponent } from './components/cancel-modal/cancel-modal.component';
+import { ControlPanelComponent } from './components/control-panel/control-panel.component';
+import { AddRoomModalComponent } from './components/add-room-modal/add-room-modal.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,10 @@ import { MessageCardComponent } from './components/message-card/message-card.com
     HomepageComponent,
     LoginpageComponent,
     SummarizeModalComponent,
-    MessageCardComponent
+    MessageCardComponent,
+    CancelModalComponent,
+    ControlPanelComponent,
+    AddRoomModalComponent
   ],
   imports: [
     BrowserModule,

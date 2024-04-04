@@ -9,7 +9,7 @@
           ...
         </button>
         <ul class="dropdown-menu" [attr.aria-labelledby]="'dropdownMenuButton' + message.messageId">
-          <li><button class="dropdown-item" disabled>Action</button></li>
+          <li><button class="dropdown-item" (click)="onDeleteMessage()">Delete Message</button></li>
           <li><button class="dropdown-item" disabled>Another action</button></li>
           <li><button class="dropdown-item" (click)="onSearchSolution()">Search solution</button></li>
         </ul>

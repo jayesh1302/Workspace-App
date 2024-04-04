@@ -59,7 +59,7 @@ public class OpenAIService {
         String url = "https://api.openai.com/v1/chat/completions";
         String summarizationInstruction = "Give a solution for the issue below:";
         String messageContentWithInstruction = message.getContent() + "\n" + summarizationInstruction;
-        
+
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(apiKey);
         headers.setContentType(MediaType.APPLICATION_JSON);

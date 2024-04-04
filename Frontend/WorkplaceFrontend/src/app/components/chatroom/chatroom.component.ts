@@ -5,6 +5,7 @@ import { ChatRoomServiceService } from 'src/app/services/chatRoomService/chat-ro
 import { Message } from 'src/app/services/chatRoomService/message';
 import { SummarizeModalComponent } from '../summarize-modal/summarize-modal.component';
 import { OpenAIServiceService } from 'src/app/services/openAIService/open-aiservice.service';
+import { MessageServiceService } from 'src/app/services/message-service.service';
 
 @Component({
   selector: 'app-chatroom',
@@ -18,10 +19,10 @@ export class ChatroomComponent implements OnInit {
   newMessageContent: string = '';
   isSummarizeModalOpen: boolean = false;
 
-
   constructor(
     private route: ActivatedRoute,
-    private chatRoomService: ChatRoomServiceService,
+    private messageService: MessageServiceService, 
+    private chatRoomService: ChatRoomServiceService,// Ensuring we're using the right service
     public openAIService: OpenAIServiceService
   ) {}
 
@@ -35,39 +36,49 @@ export class ChatroomComponent implements OnInit {
   }
 
   loadMessages() {
-    const id = Number(this.roomId); // or however you need to convert it to the type expected by your service
-    this.chatRoomService.getMessagesByRoomId(id).subscribe(
-      (messages: Message[]) => {
-        this.messages = messages;
-        this.fetchUserNames(this.messages);
-        console.log('Messages:', this.messages);
-      },
-      error => {
-        console.error('Error loading messages:', error);
-      }
-    );
+    if (this.roomId) {
+      const id = Number(this.roomId);
+      this.messageService.loadMessages(id).subscribe(
+        (messages: Message[]) => {
+          this.messages = messages;
+          console.log('Messages:', this.messages);
+          this.fetchUserNames(this.messages);
+        },
+        (error: any) => {
+          console.error('Error loading messages:', error);
+        }
+      );
+    }
+  }
+
+  // You can use this method to refresh the messages when notified
+  onMessageDeleted() {
+    this.loadMessages();
   }
 
   fetchUserNames(messages: Message[]) {
-    // Map each message to an HTTP request to fetch the username
     const usernameRequests = messages.map(message => {
       if (message.userId) {
-        return this.chatRoomService.getUserName(message, message.userId)
+        return this.chatRoomService.getUserName(message, 1) // Assuming getUserName takes userId as parameter
           .pipe(
-            tap(userName => message.userName = userName || 'noname'),
+            tap(userName => {
+              message.userName = userName || 'noname';
+            }),
             catchError(error => {
               console.error('Error getting user name:', error);
-              return of('admin'); // Return 'noname' in case of error
+              message.userName = 'admin'; // or 'noname' or any other fallback username
+              return of(null); // Use 'null' or appropriate fallback value
             })
           );
       } else {
-        // If userId is null or undefined, return an Observable immediately
-        return of('admin');
+        message.userName = 'noname'; // Set default name if userId is null or undefined
+        return of(null); // Skip further processing for this message
       }
     });
   
-    // Wait for all username requests to complete
-    combineLatest(usernameRequests).subscribe(() => {
+    combineLatest(usernameRequests).subscribe({
+      next: () => console.log('User names fetched'),
+      error: (err) => console.log('Error in fetching usernames', err),
     });
   }
   

@@ -31,4 +31,10 @@ export class ChatRoomServiceService {
   sendMessage(roomId: number, message: Message): Observable<Message> {
     return this.http.post<Message>(`${this.apiUrl}/api/messages/room/${roomId}`, message);
   }
+
+  addRoom(roomName: string, workspaceId: number) {
+    const url = `http://localhost:8080/api/rooms/workspace/${workspaceId}`;
+    const payload = { name: roomName };
+    return this.http.post(url, payload);
+  }
 }

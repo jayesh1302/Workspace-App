@@ -1,11 +1,17 @@
 <app-navbar></app-navbar>
-<div class="container-fluid">
-    <div class="row">
-      <div class="col-md-4">
+<div class="app-content-wrapper">
+  <div class="container-fluid h-100">
+    <div class="row h-100">
+      
+      <!-- Workspace List made wider by changing col-md-3 to col-md-4 -->
+      <div class="col-md-4 p-0 workspace-sidebar">
         <app-workspace></app-workspace>
       </div>
-      <div class="col-md-8">
+      
+      <!-- Chatbox adjusted to col-md-8 to fill the remaining space -->
+      <div class="col-md-8 p-0">
         <router-outlet></router-outlet>
       </div>
     </div>
+  </div>
 </div>

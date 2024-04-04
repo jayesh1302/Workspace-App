@@ -3,20 +3,25 @@ package com.nyuroject.WorkplaceManagement.service;
 import com.nyuroject.WorkplaceManagement.model.User;
 import com.nyuroject.WorkplaceManagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 @Service
-public class UserService {
-    @Autowired
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder encoder;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder encoder) {
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.encoder = encoder;
     }
-
     public User getUserById(Long userId) {
         return userRepository.findById(userId).orElse(null);
     }
@@ -29,5 +34,17 @@ public class UserService {
 
     public String getUsernameById(Long userId) {
         return userRepository.findUsernameById(userId).orElse(null);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                Collections.emptyList() // Or the proper authorities
+        );
     }
 }

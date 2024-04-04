@@ -27,4 +27,7 @@ public class MessageService {
         return messageRepository.findMessagesByRoomId(roomId);
     }
 
+    public void deleteMessage(Long messageId) {
+        messageRepository.deleteById(messageId);
+    }
 }

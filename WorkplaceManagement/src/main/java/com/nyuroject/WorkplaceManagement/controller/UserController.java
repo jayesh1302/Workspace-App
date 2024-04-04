@@ -26,10 +26,10 @@ public class UserController {
         return ResponseEntity.ok(userService.getUsernameById(userId));
     }
 
-    @PostMapping("/create")
+    @PostMapping("/register")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User savedUser = userService.saveUser(user);
-        savedUser.setPassword(null); // It's a good practice not to send back the password
+        savedUser.setPassword(null);
         return ResponseEntity.ok(savedUser);
     }
 }
