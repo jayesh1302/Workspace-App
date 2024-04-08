@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
 
@@ -24,6 +24,27 @@ export class OpenAIServiceService {
       tap(
         content => console.log(`Content: ${content}`),
         error => console.error(`Error during search for message ID: ${messageId}`, error)
+      )
+    );
+  }
+
+  getQuickResponses(prompt: string): Observable<string[]> {
+    const url = 'http://localhost:8080/api/chatgpt/quick-responses'; // replace with your actual endpoint
+    const headers = new HttpHeaders({'Content-Type': 'text/plain'});
+
+    // Assuming the API expects a POST request with the prompt
+    return this.http.post<any>(url, { prompt }).pipe(
+      map(response => {
+        // Assuming the API returns an array of responses
+        if (response && Array.isArray(response.responses)) {
+          return response.responses.slice(0, 3); // Take only the top 3 responses
+        } else {
+          throw new Error('Unexpected response structure or no responses.');
+        }
+      }),
+      tap(
+        responses => console.log(`Quick responses:`, responses),
+        error => console.error(`Error during getQuickResponses with prompt: ${prompt}`, error)
       )
     );
   }

@@ -98,5 +98,17 @@ public class MessageController {
         messageService.deleteMessage(id);
         return ResponseEntity.ok().build();
     }
-
+    @PostMapping("/quick-responses")
+    public ResponseEntity<List<String>> getQuickResponses(@RequestBody String lastUserMessage) {
+        String instruction = "Provide the top 3 quick responses to the following user message:";
+        String prompt = instruction + "\n" + lastUserMessage;
+        try {
+            List<String> responses = openAIService.getQuickResponses(prompt);
+            return new ResponseEntity<>(responses, HttpStatus.OK);
+        } catch (Exception e) {
+            // Log and handle exception
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -37,4 +37,8 @@ export class ChatRoomServiceService {
     const payload = { name: roomName };
     return this.http.post(url, payload);
   }
+
+  getUserIdByUsername(username: string): Observable<number> {
+    return this.http.get<number>(`http://localhost:8080/api/user/findId/${username}`);
+  }
 }

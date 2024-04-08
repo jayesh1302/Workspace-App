@@ -2,14 +2,10 @@
 <div class="app-content-wrapper">
   <div class="container-fluid h-100">
     <div class="row h-100">
-      
-      <!-- Workspace List made wider by changing col-md-3 to col-md-4 -->
-      <div class="col-md-4 p-0 workspace-sidebar">
+      <div *ngIf="isLoggedIn" class="col-md-4 p-0 workspace-sidebar">
         <app-workspace></app-workspace>
       </div>
-      
-      <!-- Chatbox adjusted to col-md-8 to fill the remaining space -->
-      <div class="col-md-8 p-0">
+      <div [class.col-md-8]="isLoggedIn" [class.col-md-12]="!isLoggedIn" class="p-0">
         <router-outlet></router-outlet>
       </div>
     </div>

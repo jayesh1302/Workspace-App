@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -46,5 +46,17 @@ public class UserService implements UserDetailsService {
                 user.getPassword(),
                 Collections.emptyList() // Or the proper authorities
         );
+    }
+
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public boolean isPasswordMatch(String rawPassword, String encodedPassword) {
+        return encoder.matches(rawPassword, encodedPassword);
+    }
+
+    public Integer getUserIdByUsername(String username) {
+        return userRepository.findUserIdByUsername(username).orElse(null);
     }
 }

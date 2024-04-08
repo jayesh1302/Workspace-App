@@ -16,6 +16,8 @@ import { MessageCardComponent } from './components/message-card/message-card.com
 import { CancelModalComponent } from './components/cancel-modal/cancel-modal.component';
 import { ControlPanelComponent } from './components/control-panel/control-panel.component';
 import { AddRoomModalComponent } from './components/add-room-modal/add-room-modal.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { AddRoomModalComponent } from './components/add-room-modal/add-room-moda
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule 
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
