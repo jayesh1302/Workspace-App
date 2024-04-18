@@ -17,6 +17,8 @@ import { CancelModalComponent } from './components/cancel-modal/cancel-modal.com
 import { ControlPanelComponent } from './components/control-panel/control-panel.component';
 import { AddRoomModalComponent } from './components/add-room-modal/add-room-modal.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChatbotWorkspaceComponent } from './components/chatbot-workspace/chatbot-workspace.component';
+import { AttachModalComponent } from './components/attach-modal/attach-modal.component';
 
 
 @NgModule({
@@ -32,7 +34,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MessageCardComponent,
     CancelModalComponent,
     ControlPanelComponent,
-    AddRoomModalComponent
+    AddRoomModalComponent,
+    ChatbotWorkspaceComponent,
+    AttachModalComponent
   ],
   imports: [
     BrowserModule,

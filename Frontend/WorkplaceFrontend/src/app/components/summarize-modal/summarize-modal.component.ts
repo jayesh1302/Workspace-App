@@ -16,6 +16,7 @@ export class SummarizeModalComponent {
   summaryContent: string = '';
   displayMode: DisplayContentMode = DisplayContentMode.Summary;
   DisplayContentMode: typeof DisplayContentMode = DisplayContentMode;
+  isSummarizeModalOpen: boolean = false;  // Control modal visibility
 
   constructor(private http: HttpClient) {}
 
@@ -23,6 +24,7 @@ export class SummarizeModalComponent {
   setContent(content: string, mode: DisplayContentMode) {
     this.summaryContent = content;
     this.displayMode = mode;
+    this.isSummarizeModalOpen = true;  // Ensure the modal is shown when content is set
   }
 
   // Fetch the summary from the server
@@ -45,13 +47,33 @@ export class SummarizeModalComponent {
 
   // Opens the modal and determines which content to fetch based on the type
   open(contentType: 'summary' | 'searchSolution', messageId?: number) {
+    this.isSummarizeModalOpen = true;  // Open the modal immediately when this method is called
     if (contentType === 'summary' && messageId !== undefined) {
       this.fetchSummary(messageId);
+    } else if (contentType === 'searchSolution' && messageId !== undefined) {
+      this.fetchSearchSolution(messageId);  // Assume a similar fetch method for search solution
     }
+  }
+
+  // Example method for fetching a search solution
+  fetchSearchSolution(id: number) {
+    // Dummy API endpoint for example
+    this.http.get<string>(`http://localhost:8080/api/searchSolution/${id}`)
+      .subscribe({
+        next: (content) => {
+          this.setContent(content, DisplayContentMode.SearchSolution);
+        },
+        error: (error) => {
+          console.error('Error searching for solution:', error);
+          this.setContent('Error fetching solution', DisplayContentMode.SearchSolution);
+        }
+      });
   }
 
   // Close the modal
   onClose() {
+    this.isSummarizeModalOpen = false;  // Hide the modal when closing
+    this.summaryContent = '';
     this.close.emit();
   }
 }

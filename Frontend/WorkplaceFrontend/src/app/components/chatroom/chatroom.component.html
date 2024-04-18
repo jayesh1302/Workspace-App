@@ -1,65 +1,63 @@
-<div *ngIf="messages && messages.length > 0; else noMessages" class="container-fluid px-0 d-flex flex-column"
-  style="height: 90vh;">
+<!-- chatroom.component.html -->
 
-  <div class="overflow-auto" #chatContainer style="flex-grow: 1; border: 1px solid #ced4da; border-radius: .25rem;">
+<div *ngIf="messages && messages.length > 0; else noMessages" class="container-fluid px-0 d-flex flex-column" style="height: 90vh;">
+  
+  <div class="overflow-auto" style="flex-grow: 1; border: 1px solid #ced4da; border-radius: .25rem;">
     <div class="d-flex flex-column align-items-end p-3">
       <!-- Using the MessageCardComponent for each message -->
       <div *ngFor="let message of messages" class="mb-2 w-100">
-        <app-message-card [message]="message"
-                          (searchSolution)="onSearchSolution($event)" 
-                          (messageDeleted)="onMessageDeleted()">
+        <app-message-card [message]="message" 
+                  (searchSolution)="onSearchSolution($event)" 
+                  (messageDeleted)="onMessageDeleted()" 
+                  [currentUsername]="currentUsername">
         </app-message-card>
       </div>
     </div>
   </div>
 
   <div class="p-3 border-top">
+    <!-- Quick response chips displayed above the input field -->
+    <div *ngIf="quickResponses.length > 0 && showQuickResponses" class="d-flex justify-content-start flex-wrap mb-2">
+      <button type="button" class="btn btn-outline-primary me-1 mb-1" *ngFor="let response of quickResponses" (click)="selectQuickResponse(response)">
+        {{ response }}
+      </button>
+    </div>
+
     <form class="d-flex" (ngSubmit)="sendMessage($event)">
       <div class="dropdown me-2">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="chatOptionsDropdown"
-          data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="chatOptionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
           Chat Options
         </button>
         <ul class="dropdown-menu" aria-labelledby="chatOptionsDropdown">
-          <li><button class="dropdown-item" disabled>Action</button></li>
-          <li><button class="dropdown-item" disabled>Another action</button></li>
+          <li><button class="dropdown-item" disabled>Attach file</button></li>
           <li><button type="button" class="dropdown-item" (click)="openSummarizeModal()">Summarize text</button></li>
         </ul>
       </div>
-      <div *ngIf="quickResponses.length > 0" class="mb-2">
-        <div *ngFor="let response of quickResponses" class="response-chip p-2 border bg-light" (click)="selectQuickResponse(response)">
-          {{ response }}
-        </div>
-      </div>
-      <input type="text" class="form-control me-2" placeholder="Type a message..." aria-label="Message"
-        [(ngModel)]="newMessageContent" name="messageContent">
+      <input type="text" class="form-control me-2" placeholder="Type a message..." aria-label="Message" [(ngModel)]="newMessageContent" name="messageContent">
       <button type="submit" class="btn btn-primary">Send</button>
     </form>
   </div>
 
-  <app-summarize-modal #summarizeModal [hidden]="!isSummarizeModalOpen"
-    (close)="isSummarizeModalOpen = false"></app-summarize-modal>
+  <app-summarize-modal #summarizeModal [hidden]="!isSummarizeModalOpen" (close)="isSummarizeModalOpen = false"></app-summarize-modal>
+
 
 </div>
 
 <ng-template #noMessages>
   <div class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh; overflow: hidden;">
     <p class="text-muted mb-3">No messages in this room.</p>
-    <!-- No changes here -->
     <form class="d-flex" (ngSubmit)="sendMessage($event)">
       <div class="dropdown me-2">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="chatOptionsDropdownNoMessages"
-          data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="chatOptionsDropdownNoMessages" data-bs-toggle="dropdown" aria-expanded="false">
           Chat Options
         </button>
         <ul class="dropdown-menu" aria-labelledby="chatOptionsDropdownNoMessages">
           <li><button class="dropdown-item" disabled>Action</button></li>
-          <li><button class="dropdown-item" disabled>Another action</button></li>
+          <!-- <li><button class="dropdown-item" disabled>Another action</button></li> -->
           <li><button type="button" class="dropdown-item" (click)="openSummarizeModal()">Summarize text</button></li>
         </ul>
       </div>
-      <input type="text" class="form-control me-2" placeholder="Type a message..." aria-label="Message"
-        [(ngModel)]="newMessageContent" name="messageContent">
+      <input type="text" class="form-control me-2" placeholder="Type a message..." aria-label="Message" [(ngModel)]="newMessageContent" name="messageContent">
       <button type="submit" class="btn btn-primary">Send</button>
     </form>
   </div>

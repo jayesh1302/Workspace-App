@@ -1,4 +1,3 @@
-<!-- message-card.component.html -->
 <div class="card mb-2 w-100">
   <div class="card-body d-flex justify-content-between">
     <p class="card-text">
@@ -10,8 +9,10 @@
         ...
       </button>
       <ul class="dropdown-menu" [attr.aria-labelledby]="'dropdownMenuButton' + message.messageId">
-        <li><button class="dropdown-item" (click)="onDeleteMessage()">Delete Message</button></li>
-        <li><button class="dropdown-item" disabled>Another action</button></li>
+        <li><button class="dropdown-item" 
+                    (click)="onDeleteMessage()"
+                    [disabled]="message.userName !== currentUsername">Delete Message</button></li>
+        <!-- <li><button class="dropdown-item" disabled>Another action</button></li> -->
         <li><button class="dropdown-item" (click)="onSearchSolution()">Search solution</button></li>
       </ul>
     </div>

@@ -11,6 +11,7 @@ import { MessageServiceService } from 'src/app/services/messageService/message-s
 })
 export class MessageCardComponent {
   @Input() message!: Message;
+  @Input() currentUsername!: string | null;
   @Output() searchSolution = new EventEmitter<{ content: string, id: number }>();
   @Output() messageDeleted = new EventEmitter<void>();
 
