@@ -43,7 +43,7 @@ export class ChatroomComponent implements OnInit, OnDestroy , AfterViewChecked {
     private chatRoomService: ChatRoomServiceService,
     private authService: AuthServiceService,
     private openAIService: OpenAIServiceService
-  ) {}
+  ) {  }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -220,21 +220,21 @@ export class ChatroomComponent implements OnInit, OnDestroy , AfterViewChecked {
     }
     
     // Comment out the actual service call
-    // this.openAIService.getQuickResponses(lastMessageContent)
-    //   .subscribe(responses => {
-    //     this.quickResponses = responses;
-    //     this.showQuickResponses = true;
-    //   }, error => {
-    //     console.error('Error fetching quick responses:', error);
-    //     this.showQuickResponses = false;
-    //   });
+    this.openAIService.getQuickResponses(lastMessage.content)
+  .subscribe(responses => {
+    this.quickResponses = responses;
+    this.showQuickResponses = true;
+  }, error => {
+    console.error('Error fetching quick responses:', error);
+    this.showQuickResponses = false;
+  });
   
     // Mocked response for demonstration
-    this.quickResponses = [
-      "That's interesting, tell me more.",
-      "Thank you for sharing that with me.",
-      "I'm here to help, what can I do for you?"
-    ];
+    // this.quickResponses = [
+    //   "That's interesting, tell me more.",
+    //   "Thank you for sharing that with me.",
+    //   "I'm here to help, what can I do for you?"
+    // ];
     this.showQuickResponses = true;
   }
   
@@ -265,12 +265,11 @@ export class ChatroomComponent implements OnInit, OnDestroy , AfterViewChecked {
   openAttachModal() {
     this.isAttachModalOpen = true;
   }
-  
-  onFileAttached(file: File) {
-    // handle file logic here, e.g., storing the file for sending, displaying an icon, etc.
-    console.log('Attached file:', file);
-    // Logic to show file upload icon or display next to the input field
-  }
 
-  
+  onFileAttached(file: File) {
+    console.log('Attached file:', file);
+    // Here you can add the logic to handle the attached file
+    this.isAttachModalOpen = false; // Close the modal once the file is attached
+  }
+    
 }

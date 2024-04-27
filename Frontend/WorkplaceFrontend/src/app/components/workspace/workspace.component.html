@@ -4,24 +4,33 @@
       <div id="workspaceAccordion" class="accordion">
         <div *ngFor="let workspace of workspaces" class="accordion-item">
           <h2 class="accordion-header" [id]="'workspaceHeading' + workspace.workspaceId">
-            <button class="accordion-button" [class.collapsed]="!isActiveWorkspace(workspace.workspaceId)"
-                    type="button" (click)="toggleRooms(workspace.workspaceId)"
-                    [attr.aria-expanded]="isActiveWorkspace(workspace.workspaceId) ? 'true' : 'false'">
+            <button class="accordion-button" [class.collapsed]="!isActiveWorkspace(workspace.workspaceId)" type="button"
+              (click)="toggleRooms(workspace.workspaceId)"
+              [attr.aria-expanded]="isActiveWorkspace(workspace.workspaceId) ? 'true' : 'false'">
               {{ workspace.name }}
             </button>
-            <button type="button" class="btn btn-secondary btn-sm" (click)="prepareForCancellation(workspace.workspaceId)">
+            <button type="button" class="btn btn-secondary btn-sm"
+              (click)="prepareForCancellation(workspace.workspaceId)">
               Delete Workspace
             </button>
+            <!-- New input field and Add Room button -->
+            <div class="row align-items-center">
+              <div class="col">
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="newRoomNames[workspace.workspaceId]" placeholder="New room name">
+              </div>
+              <div class="col-auto">
+                <button type="button" class="btn btn-primary btn-sm" (click)="addRoom(workspace.workspaceId)">
+                  Add Room
+                </button>
+              </div>
+            </div>
+            
           </h2>
-          <div 
-            [id]="'workspaceCollapse' + workspace.workspaceId" 
-            [attr.aria-labelledby]="'workspaceHeading' + workspace.workspaceId" 
-            class="accordion-collapse collapse" 
+          <div [id]="'workspaceCollapse' + workspace.workspaceId"
+            [attr.aria-labelledby]="'workspaceHeading' + workspace.workspaceId" class="accordion-collapse collapse"
             [class.show]="isActiveWorkspace(workspace.workspaceId)">
             <div class="accordion-body">
-              <app-rooms 
-                *ngIf="isActiveWorkspace(workspace.workspaceId)" 
-                [workspaceId]="workspace.workspaceId">
+              <app-rooms *ngIf="isActiveWorkspace(workspace.workspaceId)" [workspaceId]="workspace.workspaceId">
               </app-rooms>
             </div>
           </div>

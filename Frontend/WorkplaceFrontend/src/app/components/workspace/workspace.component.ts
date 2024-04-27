@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription, interval, switchMap } from 'rxjs';
 import { ChatRoomServiceService } from 'src/app/services/chatRoomService/chat-room-service.service';
@@ -13,8 +14,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   activeWorkspaceId: string | null = null;
   showDeleteWorkspaceModal: boolean = false;
   private workspaceSubscription!: Subscription;
+  newRoomNames: { [key: string]: string } = {};
 
-  constructor(private workspaceService: WorkspaceService) {}
+  constructor(private workspaceService: WorkspaceService,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.workspaceSubscription = this.workspaceService.workspaces$.subscribe(data => {
@@ -50,5 +54,23 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.workspaceService.fetchWorkspaces(); // Refresh the list after deletion
       });
     }
+  }
+  addRoom(workspaceId: string): void {
+    const roomName = this.newRoomNames[workspaceId];
+    if (!roomName || !roomName.trim()) {
+      alert('Please enter a room name.');
+      return;
+    }
+    const url = `http://localhost:8080/api/rooms/workspace/${workspaceId}`;
+    this.http.post(url, { name: roomName }).subscribe({
+      next: (response) => {
+        // Refresh the list of rooms to show the newly added room
+        this.workspaceService.fetchWorkspaces();
+        this.newRoomNames[workspaceId] = ''; // Reset the input field for this workspace
+      },
+      error: (error) => {
+        console.error('Error adding room:', error);
+      }
+    });
   }
 }
